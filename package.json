@@ -1,0 +1,31 @@
+{
+  "name": "node-temperature-api",
+  "version": "0.1.0",
+  "description": "Api for the Raspberry Pi temperature sensor",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-local-developer/node-temp.git"
+  },
+  "author": "Jan Fooken",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-local-developer/node-temp/issues"
+  },
+  "homepage": "https://github.com/your-local-developer/node-temp#readme",
+  "dependencies": {
+    "@koa/router": "^10.1.1",
+    "koa": "^2.13.4",
+    "node-dht-sensor": "^0.4.3"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "@types/koa__router": "^8.0.11",
+    "@types/node-dht-sensor": "^0.4.0",
+    "typescript": "^4.5.5"
+  }
+}
