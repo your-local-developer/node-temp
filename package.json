@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/your-local-developer/node-temp.git"
   },
-  "author": "Jan Fooken",
+  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/your-local-developer/node-temp/issues"
