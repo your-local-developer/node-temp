@@ -29,6 +29,6 @@ router.get("/temperature-stream", async (ctx) => {
     setInterval(async () => {
         const { temperature, humidity } = await readDhtSensor(11, 7)
         temperatureStream.write(`data: ${JSON.stringify({ temperature: temperature.toFixed(2), humidity: humidity.toFixed(2), time: moment().format('LTS') })}\n\n`)
-    }, 10000)
+    }, 3000)
 
 })

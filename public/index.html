@@ -5,14 +5,87 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="./js/index.mjs" type="module"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"
+        integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Temperatur Monitor</title>
 </head>
 
 <body>
-    <p>Temperatur:</p>
+
+    <div>
+        <canvas id="temperature-chart"></canvas>
+    </div>
+
+    <p>Temperatur log:</p>
     <ul id="data-wrapper">
     </ul>
+
+    <script>
+        /** @type {HTMLUListElement?} */
+        const dataWrapper = document.querySelector("#data-wrapper")
+        
+        /** @type{HTMLCanvasElement?} */
+        const chartCanvas = document.querySelector("#temperature-chart")
+        
+        // Temperatur Stream
+        const sse = new EventSource("http://localhost:3000/temperature-stream")
+
+
+        // Ausgangsdaten für das Diagramm
+        const labels = [];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Temperatur',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [],
+                tension: 0.2
+            }]
+        };
+
+        // Diagramm Konfiguration
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        // Diagramm erstellen mit Konfiguration
+        const temperatureChart = chartCanvas ? new Chart(chartCanvas.getContext("2d"), config) : undefined
+
+        /**
+         * Daten zum Diagramm und dem Log hinzufügen
+         * @param {MessageEvent} event 
+         */
+        function addData(event) {
+            // Gestreamte Daten
+            /** @type {{humidity: number, temperature: number, time: string}} */
+            const sensorData = JSON.parse(event.data)
+
+            // Zum log hinzufügen
+            let dataNode = document.createElement("li")
+            let temperatureContent = document.createTextNode(`Uhrzeit: ${sensorData.time}, Wärme: ${sensorData.temperature}°C, Luftfeuchtigkeit: ${sensorData.humidity}%`);
+            dataNode.appendChild(temperatureContent); // füge den Textknoten zum neu erstellten div hinzu.
+            dataWrapper?.appendChild(dataNode)
+            
+            // Wenn mehr als 20 Daten im Diagramm, dann ein Datum entfernen
+            if (temperatureChart.data.labels.length >= 20) {
+                temperatureChart.data.labels.shift()
+                temperatureChart.data.datasets[0].data.shift()
+            }
+
+            // Datum zum Diagramm hinzufügen
+            temperatureChart.data.labels.push(sensorData.time)
+            temperatureChart.data.datasets[0].data.push(sensorData.temperature)
+
+            temperatureChart.update()
+        }
+
+        // Wenn etwas neues gestreamt wird, die funktion addData ausführen
+        sse.onmessage = addData
+    </script>
 </body>
 
 </html>

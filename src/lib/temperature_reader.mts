@@ -10,7 +10,7 @@ const { read } = nodeDht.promises
 async function readDhtSensorTest(type?: SensorType, pin?: number): Promise<SensorData> {
     return {
         humidity: Math.random() * (80 - 20 + 1) + 20,
-        temperature: Math.random() * (29 - 0 + 1) + 0,
+        temperature: Math.random() * (20 - 10 + 1) + 10,
     }
 }
 
