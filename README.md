@@ -1,5 +1,11 @@
 # Node Temperatur
 
+## Info
+
+Programm streamt alle 5 Sekunden die aktuelle Temperatur an alle Clients.
+
+![Temperatur Diagramm](./doc/TempChart.png)
+
 ## Installieren:
 
 1. (Node.js 16.14.0 LTS oder neuer)[https://nodejs.org/] installieren
