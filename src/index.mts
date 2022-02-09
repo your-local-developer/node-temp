@@ -8,7 +8,7 @@ const staticDir = fileURLToPath(new URL("../public", import.meta.url))
 
 const app = new Koa()
 
-// Router und Middleware initialisieren
+// Router und Statische Middleware für die HTML Datei im public Ordner initialisieren
 app
     .use(serve(staticDir))
     .use(router.routes())

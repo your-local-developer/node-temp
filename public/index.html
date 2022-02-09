@@ -28,7 +28,7 @@
         /** @type{HTMLCanvasElement?} */
         const chartCanvas = document.querySelector("#temperature-chart")
         
-        // Temperatur Stream
+        // Temperatur Stream holen
         const sse = new EventSource("http://localhost:3000/temperature-stream")
 
 
@@ -83,7 +83,7 @@
             temperatureChart.update()
         }
 
-        // Wenn etwas neues gestreamt wird, die funktion addData ausführen
+        // Wenn etwas neues gestreamt wird, die Funktion addData ausführen
         sse.onmessage = addData
     </script>
 </body>

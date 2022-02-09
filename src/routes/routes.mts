@@ -5,15 +5,8 @@ import moment from "moment"
 
 export const router = new Router()
 
+// Route für den Temperatur stream
 router.get("/temperature-stream", async (ctx) => {
-
-    // ctx.request.socket.setTimeout(0)
-    // ctx.request.socket.setNoDelay(true);
-    // ctx.request.socket.setKeepAlive(true);
-    // ctx.response.set({
-    //     "Cache-Control": "no-cache",
-    //     "Connection": "keep-alive",
-    // })
 
     // Damit der Browser einen Stream erkennt
     ctx.response.type = "text/event-stream"
@@ -21,7 +14,7 @@ router.get("/temperature-stream", async (ctx) => {
     // Stream
     const temperatureStream = new PassThrough()
 
-    // Status okay und Stream im Body
+    // Status okay und Stream in der Antwort
     ctx.status = 200
     ctx.body = temperatureStream
 
