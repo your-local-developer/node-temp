@@ -1,6 +1,6 @@
 # Changelog 📝
 
-Alle erwähnenswerten Änderungen werden in diesem Dokument festgehalten
+Alle erwähnenswerten Änderungen werden in diesem Dokument festgehalten. Generelle Informationen befinden sich im [Readme](./README.md)
 
 ## [0.0.1] - bis 2022-01-25
 
