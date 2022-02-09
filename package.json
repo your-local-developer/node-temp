@@ -19,11 +19,15 @@
   "homepage": "https://github.com/your-local-developer/node-temp#readme",
   "dependencies": {
     "@koa/router": "^10.1.1",
+    "dotenv": "^16.0.0",
     "koa": "^2.13.4",
+    "koa-static": "^5.0.0",
+    "moment": "^2.29.1",
     "node-dht-sensor": "^0.4.3"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
+    "@types/koa-static": "^4.0.2",
     "@types/koa__router": "^8.0.11",
     "@types/node-dht-sensor": "^0.4.0",
     "typescript": "^4.5.5"

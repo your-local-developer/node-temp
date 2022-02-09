@@ -1,13 +1,18 @@
-import nodeDht from "node-dht-sensor"
-const { initialize, read } = nodeDht.promises
+import nodeDht, { SensorData, SensorType } from "node-dht-sensor"
+const { read } = nodeDht.promises
 
-initialize({
-    test: {
-        fake: {
-            temperature: 21,
-            humidity: 60
+/**
+ * Generiert zufällige Sensordaten für Tests ohne Gerät
+ * @param type DHT Sensor typ
+ * @param pin Pinnummer
+ * @returns Zufällig generierte Sensordaten
+ */
+async function readDhtSensorTest(type?: SensorType, pin?: number): Promise<SensorData> {
+    return {
+        humidity: Math.random() * (80 - 20 + 1) + 20,
+        temperature: Math.random() * (29 - 0 + 1) + 0,
     }
-    }
-})
+}
 
-export { read as readDhtSensor}
+// Wenn Test ist aktiviert, die Testfunktion wird genutzt
+export const readDhtSensor = process.env.TEST ? readDhtSensorTest : read
