@@ -38,3 +38,7 @@ Alle erwähnenswerten Änderungen werden in diesem Dokument festgehalten
 * Temperatur streaming
 * Zufällig generierte Testdaten
 * Temperaturdiagramm hinzugefügt
+
+### Changed
+
+* Update [Readme](./README.md)
