@@ -15,4 +15,5 @@ async function readDhtSensorTest(type?: SensorType, pin?: number): Promise<Senso
 }
 
 // Wenn Test ist aktiviert, die Testfunktion wird genutzt
-export const readDhtSensor = process.env.TEST ? readDhtSensorTest : read
+console.log(`Testmode: ${process.env.TEST}`)
+export {read as readDhtSensor }

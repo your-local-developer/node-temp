@@ -4,8 +4,11 @@
   "description": "Api for the Raspberry Pi temperature sensor",
   "type": "module",
   "main": "./dist/index.mjs",
+  "bin": "./dist/index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:ts": "tsc",
+    "pkg": "pkg .",
+    "start": "node ."
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,10 @@
     "url": "https://github.com/your-local-developer/node-temp/issues"
   },
   "homepage": "https://github.com/your-local-developer/node-temp#readme",
+    "pkg": {
+    "assets": ["public/**/*", ".env"],
+    "outputPath": "build"
+  },
   "dependencies": {
     "@koa/router": "^10.1.1",
     "chart.js": "^3.7.0",
@@ -31,6 +38,7 @@
     "@types/koa-static": "^4.0.2",
     "@types/koa__router": "^8.0.11",
     "@types/node-dht-sensor": "^0.4.0",
+    "pkg": "^5.5.2",
     "typescript": "^4.5.5"
   }
 }

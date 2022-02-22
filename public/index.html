@@ -24,12 +24,14 @@
     <script>
         /** @type {HTMLUListElement?} */
         const dataWrapper = document.querySelector("#data-wrapper")
-        
+
         /** @type{HTMLCanvasElement?} */
         const chartCanvas = document.querySelector("#temperature-chart")
-        
+
         // Temperatur Stream holen
-        const sse = new EventSource("http://localhost:3000/temperature-stream")
+        const streamUrl = new URL("./temperature-stream", window.location.href)
+        console.log(streamUrl.toString())
+        const sse = new EventSource(streamUrl.toString())
 
 
         // Ausgangsdaten für das Diagramm
@@ -69,7 +71,7 @@
             let temperatureContent = document.createTextNode(`Uhrzeit: ${sensorData.time}, Wärme: ${sensorData.temperature}°C, Luftfeuchtigkeit: ${sensorData.humidity}%`);
             dataNode.appendChild(temperatureContent); // füge den Textknoten zum neu erstellten div hinzu.
             dataWrapper?.appendChild(dataNode)
-            
+
             // Wenn mehr als 20 Daten im Diagramm, dann ein Datum entfernen
             if (temperatureChart.data.labels.length >= 20) {
                 temperatureChart.data.labels.shift()
