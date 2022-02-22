@@ -10,6 +10,13 @@ router.get("/temperature-stream", async (ctx) => {
 
     // Damit der Browser einen Stream erkennt
     ctx.response.type = "text/event-stream"
+    
+    // Damit nginx den stream nicht schließt und nicht buffert
+    ctx.response.set({
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "X-Accel-Buffering": "no"
+    })
 
     // Stream
     const temperatureStream = new PassThrough()
