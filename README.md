@@ -20,3 +20,12 @@ Programm streamt alle 5 Sekunden die aktuelle Temperatur an alle Clients.
 2. Dateien können module und andere Dateien bzw. Funktionen aus Dateien importieren. Folge einfach dem Pfad. ACHTUNG: `*.mts` Dateien werden mit `*.mjs` in den Imports angegeben.
 3. Der Quellcode ist mit Kommentaren versehen
 4. Der Typescript Code wird zu Javascript Code kompiliert, welcher sich in dem `dist` Ordner befindet.
+
+## Nginx config
+
+- /etc/nginx/sites-enabled/temperature_server.conf
+
+## Service 
+
+sudo cp Documents/node-temp/nodetemp.service /etc/systemd/system 
+sudo systemctl start nodetemp
