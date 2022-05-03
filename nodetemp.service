@@ -1,0 +1,12 @@
+[Unit]
+Description=Node Temperature API Service
+After=mariadb.service
+StartLimitIntervalSec=0[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=pi
+ExecStart=/usr/bin/env node /home/pi/Documents/node-temp/
+
+[Install]
+WantedBy=multi-user.target
