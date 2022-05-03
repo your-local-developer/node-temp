@@ -4,6 +4,7 @@ import { router } from "./routes/routes.mjs";
 import serve from "koa-static";
 import { fileURLToPath } from "node:url";
 import { runTemperatureService } from "./services/termperature_service/run_service.mjs";
+// run services
 runTemperatureService();
 const staticDir = fileURLToPath(new URL("../public", import.meta.url));
 const app = new Koa();
