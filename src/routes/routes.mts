@@ -28,12 +28,13 @@ router
 
         // Jede 10 Sekunden die Temperatur lesen und als Objekt die gerundeten Werte dem Browser übersenden
         setInterval(async () => {
-            const { temperature, humidity } = await readDhtSensor(11, 4)
+            // const { temperature, humidity } = await readDhtSensor(11, 4)
+            const temperature = 1
+            const humidity = 2
             temperatureStream.write(`data: ${JSON.stringify({ temperature: temperature, humidity: parseFloat(humidity.toFixed(2)), time: moment().format('LTS') })}\n\n`)
         }, 3000)
     })
     .get("/temperature", async (ctx) => {
         const query = ctx.request.query;
         console.log(query)
-        
     })
