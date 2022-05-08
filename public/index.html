@@ -9,21 +9,37 @@
         integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Temperatur Monitor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 
 <body>
+    <div class="container is-flex is-flex-direction-column">
+        <h1 class="title is-1">Temperatur Sensor Live Anzeige</h1>
+        <div class="is-16by9 is-10 mb-4">
+            <canvas id="temperature-chart"></canvas>
+        </div>
+        <!-- <div class="field is-flex">
+            <label for="from-date" class="label mr-2 mb-4">Ab:</label>
+            <div class="control mr-2">
+                <input type="date" id="from-date" name="from-date" class="input">
+            </div>
+            <button class="button is-primary" id="date-btn">Send</button>
+        </div> -->
 
-    <div>
-        <canvas id="temperature-chart"></canvas>
+        <p class="subtitle is-4">Temperatur log:</p>
+        <ul id="data-wrapper" class="is-text" style="max-height: 100px; overflow-y: scroll; overflow-x: hidden;">
+
+        </ul>
     </div>
-
-    <p>Temperatur log:</p>
-    <ul id="data-wrapper">
-    </ul>
-
     <script>
         /** @type {HTMLUListElement?} */
         const dataWrapper = document.querySelector("#data-wrapper")
+        
+        /** @type {HTMLInputElement?} */
+        const datePicker = document.querySelector("#from-date")
+        
+        /** @type {HTMLButtonElement?} */
+        const dateBtn = document.querySelector("#date-btn")
 
         /** @type{HTMLCanvasElement?} */
         const chartCanvas = document.querySelector("#temperature-chart")
@@ -42,6 +58,13 @@
                 label: 'Temperatur',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
+                data: [],
+                tension: 0.2
+            },
+            {
+                label: 'Luftfeuchtigkeit',
+                backgroundColor: 'rgb(50, 99, 132)',
+                borderColor: 'rgb(50, 99, 132)',
                 data: [],
                 tension: 0.2
             }]
@@ -63,30 +86,38 @@
          */
         function addData(event) {
             // Gestreamte Daten
-            /** @type {{humidity: number, temperature: number, time: string}} */
+            /** @type {{data:[{humidity: number, temperature: number, time_of_collection: string}], error:[]} */
             const sensorData = JSON.parse(event.data)
 
-            // Zum log hinzufügen
-            let dataNode = document.createElement("li")
-            let temperatureContent = document.createTextNode(`Uhrzeit: ${sensorData.time}, Wärme: ${sensorData.temperature}°C, Luftfeuchtigkeit: ${sensorData.humidity}%`);
-            dataNode.appendChild(temperatureContent); // füge den Textknoten zum neu erstellten div hinzu.
-            dataWrapper?.appendChild(dataNode)
+            if (sensorData && sensorData.data[0]) {
 
-            // Wenn mehr als 20 Daten im Diagramm, dann ein Datum entfernen
-            if (temperatureChart.data.labels.length >= 20) {
-                temperatureChart.data.labels.shift()
-                temperatureChart.data.datasets[0].data.shift()
+
+                // Zum log hinzufügen
+                let dataNode = document.createElement("li")
+                let temperatureContent = document.createTextNode(`Uhrzeit: ${sensorData.data[0].time_of_collection}, Wärme: ${sensorData.data[0].temperature}°C, Luftfeuchtigkeit: ${sensorData.data[0].humidity}%`);
+                dataNode.appendChild(temperatureContent); // füge den Textknoten zum neu erstellten div hinzu.
+                dataWrapper?.appendChild(dataNode)
+
+                // Wenn mehr als 20 Daten im Diagramm, dann ein Datum entfernen
+                if (temperatureChart.data.labels.length >= 20) {
+                    temperatureChart.data.labels.shift()
+                    temperatureChart.data.datasets[0].data.shift()
+                }
+
+                // Datum zum Diagramm hinzufügen
+                temperatureChart.data.labels.push(sensorData.data[0].time_of_collection)
+                temperatureChart.data.datasets[0].data.push(sensorData.data[0].temperature)
+                temperatureChart.data.datasets[1].data.push(sensorData.data[0].humidity)
+
+                temperatureChart.update()
             }
-
-            // Datum zum Diagramm hinzufügen
-            temperatureChart.data.labels.push(sensorData.time)
-            temperatureChart.data.datasets[0].data.push(sensorData.temperature)
-
-            temperatureChart.update()
         }
 
         // Wenn etwas neues gestreamt wird, die Funktion addData ausführen
         sse.onmessage = addData
+
+
+        // Get historical data
     </script>
 </body>
 
